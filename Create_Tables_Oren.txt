@@ -1,0 +1,61 @@
+CREATE TABLE teacher (
+    teacherID smallint IDENTITY (1, 1) PRIMARY KEY,
+    userName varchar(255) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
+	firstName varchar(255),
+	lastName varchar(255),
+	mail varchar(255) UNIQUE,
+	phone varchar(255) UNIQUE,
+	school varchar(255),
+);
+
+CREATE TABLE class (
+    classID smallint IDENTITY (1, 1) PRIMARY KEY,
+    className varchar(255) NOT NULL UNIQUE,
+	teacherID smallint FOREIGN KEY REFERENCES teacher(teacherID) ON DELETE CASCADE,
+    CONSTRAINT UC_class UNIQUE (className,teacherID)
+);
+
+CREATE TABLE avatar (
+    avatarID smallint IDENTITY (1, 1) PRIMARY KEY,
+    avatarName varchar(255),
+    avatarLev1 varchar(255),
+    avatarLev2 varchar(255),
+    avatarLev3 varchar(255),
+    avatarLev4 varchar(255),
+    avatarLev5 varchar(255),
+    avatarLev6 varchar(255),
+);
+
+CREATE TABLE student (
+    studentID smallint IDENTITY (1, 1) PRIMARY KEY,
+    userName varchar(255) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
+	firstName varchar(255),
+	lastName varchar(255),
+	phone varchar(255) UNIQUE,
+	classID smallint FOREIGN KEY REFERENCES class(classID),
+	teacherID smallint FOREIGN KEY REFERENCES teacher(teacherID),
+	avatarID smallint FOREIGN KEY REFERENCES avatar(avatarID),
+);
+
+CREATE TABLE category (
+    categoryID smallint IDENTITY (1, 1) PRIMARY KEY,
+    categoryName varchar(255),
+);
+
+CREATE TABLE warningSettings (
+    warningSettingID smallint IDENTITY (1, 1) PRIMARY KEY,
+	teacherID smallint FOREIGN KEY REFERENCES teacher(teacherID) ON DELETE CASCADE,
+	warningPositive bit,
+	warningNegative bit,
+	warningHelp bit,
+	warningLate bit,
+	warningPreDate int,
+	warningIdle int,
+);
+
+
+
+
+
